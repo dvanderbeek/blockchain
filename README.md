@@ -10,6 +10,13 @@ By abstracting common transaction tracking logic, the codebase reduces duplicati
 ## Raw Data as Source of Truth:
 All raw blockchain transaction data is stored and preserved, allowing the system to reference the original data for validation, auditing, and future-proofing against changes in blockchain protocols.
 
+This approach minimizes the need for logic and assumptions and keeps everything that can be determined from onchain data decoupled from Figment-specific concepts.
+
+### THE GUIDING PRINCIPLE
+
+If a blockchain explorer can show a piece of information, that information should live in models that DO NOT know about the Figment-specific concept of "organization_id" or have any attributes that are not
+either directly from the RPC or derived from the RPC data.
+
 ## Normalized Transaction Format:
 Transaction details from various blockchains are normalized into a unified schema, enabling consistent display and processing across the API and user interfaces, regardless of the underlying blockchain.
 
