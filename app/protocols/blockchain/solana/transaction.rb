@@ -1,11 +1,5 @@
 module Blockchain::Solana
-  class Transaction
-    include ActiveModel::Model
-
-    # TODO: We could save some of this normalized info to the Transaction model for easy querying / filtering / etc
-
-    attr_accessor :network, :hash, :status_info, :info
-
+  class Transaction < Blockchain::OnchainTransaction
     def timestamp
       return unless info && info.dig('result', 'blockTime')
 

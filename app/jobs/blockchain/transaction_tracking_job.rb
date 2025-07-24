@@ -10,6 +10,7 @@ module Blockchain
       transaction = Transaction.find(transaction_id)
       transaction.track
 
+      # Trigger retry if not completed
       raise TransactionPending if !transaction.completed?
     end
   end
