@@ -30,6 +30,7 @@ The Solana integration illustrates a clear separation of concerns:
 ### Benefits:
 This separation makes the logic easy to test in isolation—parsing and normalization can be unit tested with static data, without requiring live API calls to the blockchain. This leads to more reliable, faster, and deterministic tests.
 
+```mermaid
 flowchart TD
   A["API Request: Create/Track Transaction"] --> B["Blockchain::Transaction Model"]
   B --> C["fetch_onchain_data"]
@@ -42,3 +43,4 @@ flowchart TD
   G --> H["Expose Standardized Info to API/UI"]
   B --> I["TransactionTrackingJob (background)"]
   I -->|"retries until confirmed"| B
+```
