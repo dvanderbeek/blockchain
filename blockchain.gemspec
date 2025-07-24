@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "debug"
   spec.add_dependency "rails", ">= 7"
+  spec.add_dependency "httparty"
 end
