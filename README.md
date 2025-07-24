@@ -14,7 +14,7 @@ This approach minimizes the need for logic and assumptions and keeps everything 
 
 ### THE GUIDING PRINCIPLE
 
-If a blockchain explorer can show a piece of information, that information should live in models that DO NOT know about the Figment-specific concept of "organization_id" or have any attributes that are not
+If a blockchain explorer can show a piece of information, that information should live in models that DO NOT know about internal concepts like customers or users, or have any attributes that are not
 either directly from the RPC or derived from the RPC data.
 
 ## Normalized Transaction Format:
