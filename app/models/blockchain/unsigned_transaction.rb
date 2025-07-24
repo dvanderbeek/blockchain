@@ -5,7 +5,7 @@ module Blockchain
     attr_accessor :transaction_payload, :signing_payload
 
     def self.for(protocol, action)
-      "#{protocol.camelize}::UnsignedTransactions::#{action.camelize}Transaction".constantize
+      "Blockchain::#{protocol.camelize}::UnsignedTransactions::#{action.camelize}Transaction".constantize
     end
   end
 end

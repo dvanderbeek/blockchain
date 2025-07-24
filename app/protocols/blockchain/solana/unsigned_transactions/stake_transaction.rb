@@ -1,4 +1,4 @@
-module Solana
+module Blockchain::Solana
   module UnsignedTransactions
     class StakeTransaction < BaseTransaction
       attr_accessor :wallet_address, :validator_address, :amount

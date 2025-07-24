@@ -1,4 +1,4 @@
-module Solana
+module Blockchain::Solana
   module UnsignedTransactions
     class BaseTransaction < ::Blockchain::UnsignedTransaction
       attr_accessor :network

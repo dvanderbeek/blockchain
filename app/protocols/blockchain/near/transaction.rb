@@ -1,4 +1,4 @@
-module Near
+module Blockchain::Near
   class Transaction
     include ActiveModel::Model
 

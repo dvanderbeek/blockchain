@@ -26,15 +26,15 @@ module Blockchain
     private
 
     def status_klass
-      "#{protocol.camelize}::TransactionStatus".constantize
+      "Blockchain::#{protocol.camelize}::TransactionStatus".constantize
     end
 
     def info_klass
-      "#{protocol.camelize}::TransactionInfo".constantize
+      "Blockchain::#{protocol.camelize}::TransactionInfo".constantize
     end
 
     def onchain_tx_klass
-      "#{protocol.camelize}::Transaction".constantize
+      "Blockchain::#{protocol.camelize}::Transaction".constantize
     end
   end
 end

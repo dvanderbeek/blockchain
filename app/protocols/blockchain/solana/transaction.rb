@@ -1,4 +1,4 @@
-module Solana
+module Blockchain::Solana
   class Transaction
     include ActiveModel::Model
 

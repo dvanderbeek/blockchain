@@ -1,5 +1,5 @@
-module Near
-  class TransactionInfo
+module Blockchain::Near
+  class TransactionStatus
     include ActiveModel::Model
 
     attr_accessor :network, :hash, :tx

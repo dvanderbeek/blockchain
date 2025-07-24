@@ -9,14 +9,15 @@ module Blockchain
     end
 
     def rpc_url
-      # In core, this would probably come from `Util::Network` or wherever we end up moving protocol / network config
-      if @protocol == "solana" && @network == "devnet"
-        URI('https://api.devnet.solana.com')
-      elsif @protocol == "near" && @network == "testnet"
-        URI('https://rpc.testnet.near.org')
-      else
+      protocol = "Blockchain::#{@protocol.camelize}".safe_constantize
+      network = protocol&.networks[@network.to_sym]
+      url = network&.dig(:rpc_url)
+
+      if protocol.blank? || network.blank? || url.blank?
         raise NotImplementedError, "RPC URL not configured for #{@protocol} on #{@network}"
       end
+
+      URI(url)
     end
 
     def method_missing(method_name, *args, &block)
