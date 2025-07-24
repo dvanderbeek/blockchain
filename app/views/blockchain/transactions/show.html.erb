@@ -1,0 +1,39 @@
+<p class="text-green-600 mb-4"><%= notice %></p>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <%= render @transaction %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Transaction Type</h2>
+  <%= @transaction.onchain_tx.type %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Timestamp</h2>
+  <%= @transaction.onchain_tx.timestamp&.in_time_zone("America/Los_Angeles")&.strftime("%b %d, %Y at %H:%M:%S") %> Pacific Daylight Time
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Nonce</h2>
+  <%= @transaction.onchain_tx.nonce %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Signed By</h2>
+  <%= @transaction.onchain_tx.signers.join(", ") %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Onchain Info</h2>
+  <pre class="bg-gray-100 rounded text-sm overflow-x-auto mb-6 p-6">
+<%= JSON.pretty_generate(@transaction.onchain_info) -%>
+  </pre>
+</div>
+
+<div class="flex items-center space-x-4">
+  <%= link_to "Edit this transaction", edit_transaction_path(@transaction), class: "text-blue-600 hover:underline" %>
+  <span>|</span>
+  <%= link_to "Back to transactions", transactions_path, class: "text-blue-600 hover:underline" %>
+  <%= button_to "Destroy this transaction", @transaction, method: :delete, class: "bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 ml-4" %>
+</div>

@@ -1,0 +1,21 @@
+<div id="<%= dom_id transaction %>" class="border rounded-md mb-2 p-6 bg-white shadow-sm">
+  <p class="text-sm">
+    <span class="font-semibold text-gray-700">Protocol:</span>
+    <%= transaction.protocol %>
+  </p>
+
+  <p class="text-sm">
+    <span class="font-semibold text-gray-700">Network:</span>
+    <%= transaction.network %>
+  </p>
+
+  <p class="text-sm break-words">
+    <span class="font-semibold text-gray-700">Tx hash:</span>
+    <%= link_to_unless_current transaction.tx_hash, transaction %>
+  </p>
+
+  <p class="text-sm">
+    <span class="font-semibold text-gray-700">Status:</span>
+    <%= transaction.onchain_tx.status %>
+  </p>
+</div>
