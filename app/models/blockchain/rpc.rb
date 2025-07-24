@@ -1,3 +1,6 @@
+require 'net/http'
+require 'json'
+
 module Blockchain
   class Rpc
     def initialize(protocol, network)
