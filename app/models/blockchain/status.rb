@@ -9,11 +9,10 @@ module Blockchain
     PENDING   = new(:pending)
     CONFIRMED = new(:confirmed)
     FAILED    = new(:failed)
-    DROPPED   = new(:dropped)
-    REPLACED  = new(:replaced)
+    EXPIRED   = new(:expired)
 
-    ALL = [PENDING, CONFIRMED, FAILED, DROPPED, REPLACED].freeze
-    TERMINAL = [CONFIRMED, FAILED, DROPPED, REPLACED].freeze
+    ALL = [PENDING, CONFIRMED, FAILED, EXPIRED].freeze
+    TERMINAL = [CONFIRMED, FAILED, EXPIRED].freeze
 
     def terminal?
       TERMINAL.map(&:name).include?(name)

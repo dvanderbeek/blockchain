@@ -1,3 +1,13 @@
+# t.string "protocol"
+# t.string "network"
+# t.string "tx_hash"
+# t.string "sender_address"
+# t.json "onchain_info"
+# t.json "status_info"
+
+# t.datetime "created_at", null: false
+# t.datetime "updated_at", null: false
+
 module Blockchain
   class Transaction < ApplicationRecord
     before_create :fetch_onchain_data

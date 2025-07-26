@@ -14,7 +14,7 @@ module Blockchain
 
     def status
       @transaction = Transaction.new(
-        tx_hash: params[:id],
+        tx_hash: params[:tx_hash],
         protocol: params[:protocol],
         network: params[:network],
         sender_address: params[:sender_address]
@@ -47,10 +47,14 @@ module Blockchain
     def create
       @transaction = Transaction.new(transaction_params)
 
-      if @transaction.save
-        redirect_to @transaction, notice: "Transaction was successfully created."
-      else
-        render :new, status: :unprocessable_entity
+      respond_to do |format|
+        if @transaction.save
+          format.html { redirect_to @transaction, notice: "Transaction was successfully created." }
+          format.json { render json: @transaction }
+        else
+          format.html { render :new, status: :unprocessable_entity }
+          format.json { render json: @transaction.errors }
+        end
       end
     end
 

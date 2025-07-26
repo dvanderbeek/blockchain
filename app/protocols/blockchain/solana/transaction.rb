@@ -39,17 +39,27 @@ module Blockchain::Solana
       value = result['value'].first if result
       confirmation_status = value['confirmationStatus'] if value
 
-      if value.nil?
-        Blockchain::Status::PENDING
-      elsif value['err']
-        Blockchain::Status::FAILED
-      elsif confirmation_status == 'finalized'
-        Blockchain::Status::CONFIRMED
-      elsif ['processed', 'confirmed'].include?(confirmation_status)
+      return Blockchain::Status::PENDING if value.nil?
+      return Blockchain::Status::FAILED if value['err']
+      return Blockchain::Status::CONFIRMED if confirmation_status == 'finalized'
+
+      if current_block_height && value['slot']
+        if current_block_height > value['slot'] + 150
+          return Blockchain::Status::EXPIRED
+        end
+      end
+
+      if ['processed', 'confirmed'].include?(confirmation_status)
         Blockchain::Status::PENDING
       else
         Blockchain::Status::FAILED
       end
+    end
+
+    def current_block_height
+      @current_block_height ||= Blockchain::Rpc.new('solana', network).get_block_height([
+        { commitment: 'finalized' }
+      ])['result']
     end
   end
 end
