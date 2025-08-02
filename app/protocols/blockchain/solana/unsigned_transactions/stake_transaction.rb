@@ -1,7 +1,7 @@
 module Blockchain::Solana
   module UnsignedTransactions
     class StakeTransaction < BaseTransaction
-      attr_accessor :wallet_address, :validator_address, :amount
+      store_accessor :inputs, :wallet_address, :validator_address, :amount
 
       validates :amount, numericality: { less_than_or_equal_to: 10 }
 
@@ -15,6 +15,10 @@ module Blockchain::Solana
           withdrawAuthorityPubKey: wallet_address,
           amount:
         }.to_json, headers:)
+      end
+
+      def address
+        wallet_address
       end
     end
   end

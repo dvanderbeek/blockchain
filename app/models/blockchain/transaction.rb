@@ -13,6 +13,19 @@ module Blockchain
     before_create :fetch_onchain_data
     after_create { TransactionTrackingJob.perform_later(id) unless completed? }
 
+    def source
+      unsigned_transaction&.source || 'external'
+    end
+
+    def unsigned_transaction
+      # TODO: re-create fingerprint and look up by that; this would lead to false positives
+      @unsigned_transaction ||= UnsignedTransaction.find_by(
+        protocol:,
+        network:,
+        fingerprint: onchain_tx.fingerprint
+      )
+    end
+
     def completed?
       onchain_tx.status&.terminal?
     end

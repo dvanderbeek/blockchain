@@ -4,10 +4,7 @@ module Blockchain
     before_action :set_transaction, only: %i[ show edit update destroy ]
 
     def build
-      # TODO: If we save a record here, we could most likely monitor for matching transactions based on
-      # the `operation` (transaction type) and nonce / recent blockhash. That would solve the issue of
-      # FigApp users closing the browser and not sending back a tx hash or api users not broadcasting via our API
-      @transaction = UnsignedTransaction.for(params[:protocol], params[:operation]).new(build_params)
+      @transaction = UnsignedTransaction.for(params[:protocol], params[:operation]).create(build_params)
 
       render :show, status: :created
     end
@@ -85,11 +82,7 @@ module Blockchain
       end
 
       def build_params
-        permitted_params[:inputs].merge(network: params[:network])
-      end
-
-      def permitted_params
-        params.permit(:network, inputs: {})
+        params.permit(:protocol, :network, inputs: {}).merge(source: 'API')
       end
   end
 end

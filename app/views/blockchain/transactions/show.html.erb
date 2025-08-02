@@ -5,6 +5,11 @@
 </div>
 
 <div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Source</h2>
+  <%= @transaction.source %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
   <h2 class="text-xl font-semibold mb-4">Transaction Type</h2>
   <%= @transaction.onchain_tx.type %>
 </div>

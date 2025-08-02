@@ -29,7 +29,30 @@ module Blockchain::Solana
     def type
       return unless info
 
-      info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'type') || 'unknown'
+      type = info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'type') || 'unknown'
+
+      case type
+      when 'createAccount' then 'stake'
+      else type
+      end
+    end
+
+    # Subclass also needs to know how to reconstruct inputs so that we can calculate fingerprint
+    # Keys match the inputs that the API expects when building the tx payload for app/protocols/blockchain/solana/unsigned_transactions/stake_transaction.rb
+    # For now, this only works for stake transactions
+    # Need keys to be in the same order as in the unsigned tx; we should sort them in both places
+    def inputs
+      wallet_address = info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'info', 'source')
+      amount = info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'info', 'lamports')
+      validator_address = info.dig('result', 'transaction', 'message', 'instructions')&.last&.dig('parsed', 'info', 'voteAccount')
+
+      return {} unless wallet_address && amount && validator_address
+
+      {
+        wallet_address:,
+        validator_address:,
+        amount: (amount / 10**9).to_f
+      }
     end
 
     def status

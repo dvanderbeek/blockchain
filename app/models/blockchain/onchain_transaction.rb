@@ -29,5 +29,19 @@ module Blockchain
     def status
       raise NotImplementedError, 'Subclass must implement status'
     end
+
+    def inputs
+      raise NotImplementedError, 'Subclass must implement inputs'
+    end
+
+    def fingerprint
+      data = {
+        nonce:,
+        address: signers.first,
+        inputs:
+      }
+
+      Digest::SHA256.hexdigest data.to_json
+    end
   end
 end
