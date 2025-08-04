@@ -35,6 +35,8 @@ module Blockchain
     end
 
     def fingerprint
+      return unless status.terminal?
+
       data = {
         nonce:,
         address: signers.first,
