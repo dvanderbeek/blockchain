@@ -10,15 +10,20 @@
 
 module Blockchain
   class Transaction < ApplicationRecord
+    # TODO: All onchain transaction parsers need to implement these methods
+    delegate :nonce, :type, :amount_base_units, :wallet_address, :validator_address, to: :onchain_tx
+
     before_create :fetch_onchain_data
-    after_create { TransactionTrackingJob.perform_later(id) unless completed? }
+
+    after_create do
+      TransactionTrackingJob.perform_later(id) unless completed?
+    end
 
     def source
       unsigned_transaction&.source || 'external'
     end
 
     def unsigned_transaction
-      # TODO: re-create fingerprint and look up by that; this would lead to false positives
       @unsigned_transaction ||= UnsignedTransaction.find_by(
         protocol:,
         network:,
@@ -30,9 +35,15 @@ module Blockchain
       onchain_tx.status&.terminal?
     end
 
+    def confirmed?
+      onchain_tx.status == Blockchain::Status::CONFIRMED
+    end
+
     def track
       fetch_onchain_data
       save!
+
+      Blockchain.transaction_completed(self) if confirmed?
     rescue NameError
       puts "Transaction Tracking not implemented for #{protocol}"
     end

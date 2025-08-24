@@ -37,22 +37,36 @@ module Blockchain::Solana
       end
     end
 
+    def amount_base_units
+      return unless info
+
+      info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'info', 'lamports')
+    end
+
+    def wallet_address
+      return unless info
+
+      info.dig('result', 'transaction', 'message', 'instructions')&.last&.dig('parsed', 'info', 'stakeAuthority')
+    end
+
+    def validator_address
+      return unless info
+
+      info.dig('result', 'transaction', 'message', 'instructions')&.last&.dig('parsed', 'info', 'voteAccount')
+    end
+
     # Subclass also needs to know how to reconstruct inputs so that we can calculate fingerprint
     # Keys match the inputs that the API expects when building the tx payload for app/protocols/blockchain/solana/unsigned_transactions/stake_transaction.rb
     # For now, this only works for stake transactions
     # Need keys to be in the same order as in the unsigned tx; we should sort them in both places
     def inputs
-      wallet_address = info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'info', 'source')
-      amount = info.dig('result', 'transaction', 'message', 'instructions')&.first&.dig('parsed', 'info', 'lamports')
-      validator_address = info.dig('result', 'transaction', 'message', 'instructions')&.last&.dig('parsed', 'info', 'voteAccount')
-
-      return {} unless wallet_address && amount && validator_address
+     return {} unless wallet_address && amount_base_units && validator_address
 
       {
         wallet_address:,
         validator_address:,
-        amount: (amount / 10**9).to_f
-      }
+        amount: (amount_base_units.to_f / 10**9)
+      }.stringify_keys
     end
 
     def status

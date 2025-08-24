@@ -1,3 +1,5 @@
+<script src="https://cdn.tailwindcss.com"></script>
+
 <p class="text-green-600 mb-4"><%= notice %></p>
 
 <div class="bg-white shadow rounded p-6 mb-6">
@@ -15,13 +17,25 @@
 </div>
 
 <div class="bg-white shadow rounded p-6 mb-6">
-  <h2 class="text-xl font-semibold mb-4">Timestamp</h2>
-  <%= @transaction.onchain_tx.timestamp&.in_time_zone("America/Los_Angeles")&.strftime("%b %d, %Y at %H:%M:%S") %> Pacific Daylight Time
+  <h2 class="text-xl font-semibold mb-4">Nonce</h2>
+  <%= @transaction.onchain_tx.nonce %>
 </div>
 
 <div class="bg-white shadow rounded p-6 mb-6">
-  <h2 class="text-xl font-semibold mb-4">Nonce</h2>
-  <%= @transaction.onchain_tx.nonce %>
+  <h2 class="text-xl font-semibold mb-4">Inputs</h2>
+  <pre class="bg-gray-100 rounded text-sm overflow-x-auto p-6">
+<%= JSON.pretty_generate(@transaction.onchain_tx.inputs) -%>
+  </pre>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Fingerprint</h2>
+  <%= @transaction.onchain_tx.fingerprint %>
+</div>
+
+<div class="bg-white shadow rounded p-6 mb-6">
+  <h2 class="text-xl font-semibold mb-4">Timestamp</h2>
+  <%= @transaction.onchain_tx.timestamp&.in_time_zone("America/Los_Angeles")&.strftime("%b %d, %Y at %H:%M:%S") %> Pacific Daylight Time
 </div>
 
 <div class="bg-white shadow rounded p-6 mb-6">

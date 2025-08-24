@@ -4,6 +4,9 @@ module Blockchain
     before_action :set_transaction, only: %i[ show edit update destroy ]
 
     def build
+      # TODO: This should be in the main app
+      Current.user = User.find_by(id: request.headers['X-USER-ID'])
+
       @transaction = UnsignedTransaction.for(params[:protocol], params[:operation]).create(build_params)
 
       render :show, status: :created
@@ -49,7 +52,7 @@ module Blockchain
           format.html { redirect_to @transaction, notice: "Transaction was successfully created." }
           format.json { render json: @transaction }
         else
-          format.html { render :new, status: :unprocessable_entity }
+          format.html { render :new, status: :unprocessable_content }
           format.json { render json: @transaction.errors }
         end
       end
@@ -60,7 +63,7 @@ module Blockchain
       if @transaction.update(transaction_params)
         redirect_to @transaction, notice: "Transaction was successfully updated.", status: :see_other
       else
-        render :edit, status: :unprocessable_entity
+        render :edit, status: :unprocessable_content
       end
     end
 

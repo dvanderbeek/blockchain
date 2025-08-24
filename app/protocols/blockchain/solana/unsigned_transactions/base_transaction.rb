@@ -19,7 +19,7 @@ module Blockchain::Solana
       private
 
       def slate_networks_url
-        'https://dvdb.loca.lt/solana'
+        'http://localhost:8081/solana'
       end
 
       def headers
