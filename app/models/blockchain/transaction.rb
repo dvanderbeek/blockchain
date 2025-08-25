@@ -11,12 +11,16 @@
 module Blockchain
   class Transaction < ApplicationRecord
     # TODO: All onchain transaction parsers need to implement these methods
-    delegate :nonce, :type, :amount_base_units, :wallet_address, :validator_address, to: :onchain_tx
+    delegate :nonce, :type, :amount_base_units, :wallet_address, to: :onchain_tx
 
     before_create :fetch_onchain_data
 
     after_create do
       TransactionTrackingJob.perform_later(id) unless completed?
+    end
+
+    after_save do
+      Adapters::TransactionAdapterFactory.build(self)&.process if confirmed?
     end
 
     def source
@@ -42,8 +46,6 @@ module Blockchain
     def track
       fetch_onchain_data
       save!
-
-      Blockchain.transaction_completed(self) if confirmed?
     rescue NameError
       puts "Transaction Tracking not implemented for #{protocol}"
     end

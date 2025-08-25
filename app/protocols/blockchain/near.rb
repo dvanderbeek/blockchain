@@ -8,7 +8,7 @@ module Blockchain::Near
         explorer_url: 'https://nearblocks.io'
       },
       testnet: {
-        rpc_url: 'https://archival-rpc.testnet.near.org',
+        rpc_url: 'https://test.rpc.fastnear.com',
         explorer_url: 'https://testnet.nearblocks.io'
       }
     }

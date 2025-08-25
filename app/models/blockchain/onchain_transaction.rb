@@ -30,6 +30,14 @@ module Blockchain
       raise NotImplementedError, 'Subclass must implement status'
     end
 
+    def amount_base_units
+      raise NotImplementedError, 'Subclass must implement amount_base_units'
+    end
+
+    def wallet_address
+      raise NotImplementedError, 'Subclass must implement wallet_address'
+    end
+
     def inputs
       raise NotImplementedError, 'Subclass must implement inputs'
     end
@@ -39,7 +47,7 @@ module Blockchain
 
       data = {
         nonce:,
-        address: signers.first,
+        address: wallet_address,
         inputs:
       }
 
