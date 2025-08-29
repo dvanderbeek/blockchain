@@ -1,9 +1,7 @@
 module Blockchain
   class UnsignedTransaction < ApplicationRecord
-    attr_accessor :transaction_payload, :signing_payload
-
-    def self.for(protocol, action)
-      "Blockchain::#{protocol.camelize}::UnsignedTransactions::#{action.camelize}Transaction".constantize
+    def self.for(protocol, operation)
+      "Blockchain::#{protocol.camelize}::UnsignedTransactions::#{operation.camelize}Transaction".constantize
     end
 
     before_create do

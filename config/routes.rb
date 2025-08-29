@@ -3,6 +3,7 @@ Blockchain::Engine.routes.draw do
     defaults format: :json do
       collection do
         post :build
+        post :broadcast
         post :status # Cleaner URL / easier to view in Postman
         get :status # More conventional REST endpoint
       end

@@ -20,7 +20,7 @@ module Blockchain
     end
 
     after_save do
-      Adapters::TransactionAdapterFactory.build(self)&.process if confirmed?
+      Blockchain.transaction_confirmed(self) if confirmed?
     end
 
     def source

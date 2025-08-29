@@ -25,9 +25,37 @@ module Blockchain
       render json: { status: @transaction.onchain_tx.status.to_s }
     end
 
+    def broadcast
+      # TODO: Maybe set up a single nodejs endpoint that takes protocol as a param
+      # so that we have more control over the request / response schema
+      res = HTTParty.post(
+        "http://localhost:3300/#{params[:protocol]}/sign-and-broadcast",
+        body: {
+          unsignedTransactionHex: params[:transaction_payload],
+          privateKeys: [params[:private_key]],
+          senderAddress: params[:sender_address],
+          confirm: false
+        }.to_json,
+        headers: {
+          "Content-Type" => "application/json"
+        }
+      )
+
+      tx_hash = res["transactionHash"]
+
+      Transaction.create(
+        tx_hash:,
+        protocol: params[:protocol],
+        network: params[:network],
+        sender_address: params[:sender_address]
+      ) if tx_hash.present?
+
+      render json: { tx_hash: }, status: :created
+    end
+
     # GET /transactions
     def index
-      @transactions = Transaction.all
+      @transactions = Transaction.order(created_at: :desc)
     end
 
     # GET /transactions/1

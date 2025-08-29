@@ -3,8 +3,8 @@ module Blockchain::Solana
     class BaseTransaction < ::Blockchain::UnsignedTransaction
       def transaction_payload
         {
-          hex: response["transactionPayloadHex"],
-          base64: response["transactionPayloadBase64"]
+          hex: response["unsignedTransaction"]["hex"],
+          base64: response["unsignedTransaction"]["base64"]
         }
       end
 
@@ -19,7 +19,7 @@ module Blockchain::Solana
       private
 
       def slate_networks_url
-        'http://localhost:8081/solana'
+        'http://localhost:3300/solana'
       end
 
       def headers
