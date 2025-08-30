@@ -8,7 +8,7 @@ module Blockchain::Near
       # TODO: This is basically what we have already with the Transactions pack
       # We could also expose slate-networks endpoints directly and eliminate a whole layer in Core
       def response
-        @response ||= HTTParty.post("#{slate_networks_url}/delegate_transaction", body: {
+        @response ||= HTTParty.post("#{slate_networks_url}/build-stake", body: {
           validatorAddress: validator_address,
           delegatorAddress: wallet_address,
           delegatorPubKey: wallet_pubkey,

@@ -19,7 +19,7 @@ module Blockchain::Near
       private
 
       def slate_networks_url
-        'http://localhost:8087/near'
+        'http://localhost:3300/near'
       end
 
       def headers
