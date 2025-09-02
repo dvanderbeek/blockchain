@@ -3,10 +3,7 @@ module Blockchain::Near
     def timestamp
       return unless info
 
-      blockhash = info.dig('result', 'transaction_outcome', 'block_hash')
-      block = Blockchain::Rpc.new('near', network).block({ block_id: blockhash })
-      timestamp = block.dig('result', 'header', 'timestamp')
-      Time.at(timestamp / 1_000_000_000)
+      info.dig('timestamp')
     end
 
     def nonce
