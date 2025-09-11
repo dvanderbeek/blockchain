@@ -28,11 +28,25 @@ module Blockchain
     end
 
     def unsigned_transaction
-      @unsigned_transaction ||= UnsignedTransaction.find_by(
-        protocol:,
+      @unsigned_transaction ||= UnsignedTransaction.find_by(fingerprint: calculate_fingerprint)
+    end
+
+    def calculate_fingerprint
+      return unless completed?
+      return fingerprint if fingerprint.present?
+
+      data = {
         network:,
-        fingerprint: onchain_tx.fingerprint
-      )
+        protocol:,
+        nonce: nonce.to_s,
+        address: wallet_address,
+        inputs: onchain_tx.inputs
+      }
+
+      digest = Digest::SHA256.hexdigest data.to_json
+      update(fingerprint: digest)
+
+      digest
     end
 
     def completed?

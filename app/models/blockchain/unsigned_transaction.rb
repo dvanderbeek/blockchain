@@ -16,10 +16,10 @@ module Blockchain
       Current.user&.add_wallet(network, protocol, address)
     end
 
-    # Once we track an onchain transaction, we need to do something similar and have the main app call the Delegations::UpsertStake
-
     def calculate_fingerprint
       data = {
+        network:,
+        protocol:,
         nonce:,
         address:,
         inputs:

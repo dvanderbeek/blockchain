@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_02_140152) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_11_154620) do
   create_table "blockchain_transactions", force: :cascade do |t|
     t.string "protocol"
     t.string "network"
@@ -21,6 +21,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_02_140152) do
     t.json "onchain_info"
     t.json "status_info"
     t.string "sender_address"
+    t.string "fingerprint"
+    t.index ["fingerprint"], name: "index_blockchain_transactions_on_fingerprint"
   end
 
   create_table "blockchain_unsigned_transactions", force: :cascade do |t|

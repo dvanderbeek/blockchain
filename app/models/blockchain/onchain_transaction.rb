@@ -41,17 +41,5 @@ module Blockchain
     def inputs
       raise NotImplementedError, 'Subclass must implement inputs'
     end
-
-    def fingerprint
-      return unless status.terminal?
-
-      data = {
-        nonce:,
-        address: wallet_address,
-        inputs:
-      }
-
-      Digest::SHA256.hexdigest data.to_json
-    end
   end
 end
