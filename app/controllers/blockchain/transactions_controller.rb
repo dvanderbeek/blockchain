@@ -43,12 +43,12 @@ module Blockchain
 
       tx_hash = res["transactionHash"]
 
-      # Transaction.create(
-      #   tx_hash:,
-      #   protocol: params[:protocol],
-      #   network: params[:network],
-      #   sender_address: params[:sender_address]
-      # ) if tx_hash.present?
+      Transaction.create(
+        tx_hash:,
+        protocol: params[:protocol],
+        network: params[:network],
+        sender_address: params[:sender_address]
+      ) if tx_hash.present?
 
       render json: { tx_hash: }, status: :created
     end
